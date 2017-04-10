@@ -8,6 +8,9 @@ public class CombinedTimer {
     private volatile boolean kill;
     private SequentialCountDownTimer first;
 
+    public void cancel() {
+        kill = true;
+    }
     public CombinedTimer add(TimerAction action, TimerDefinition definition) {
         SequentialCountDownTimer countDownTimer = new SequentialCountDownTimer(action, definition);
         if(prevois != null) {

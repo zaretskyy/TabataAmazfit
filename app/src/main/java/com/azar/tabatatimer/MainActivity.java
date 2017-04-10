@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +21,14 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Settings.System.putInt(this.getContentResolver(),
+                Settings.System.SCREEN_BRIGHTNESS, 0);
+
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.screenBrightness = 0;
+        getWindow().setAttributes(lp);
+
         setContentView(R.layout.activity_main);
         textView = (TextView)this.findViewById(R.id.timer_content);
         linearLayout = (LinearLayout)this.findViewById(R.id.linear_layout);
@@ -37,6 +47,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        combinedTimer.cancel();
     }
 
     public void onTextClick(View v) {
